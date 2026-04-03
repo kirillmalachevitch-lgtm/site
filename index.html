@@ -1,293 +1,59 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Karaoke Player</title>
-<style>
-  body, html {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow: hidden;
-    background-size: cover;
-    background-position: center;
-    font-family: Arial, sans-serif;
-    color: #fff;
-  }
-  #lyrics {
-    position: absolute;
-    bottom: 5%;
-    width: 100%;
-    text-align: center;
-    font-size: 2em;
-    line-height: 1.5em;
-    text-shadow: 2px 2px 5px rgba(0,0,0,0.7);
-  }
-  .highlight {
-    color: #ffd700;
-    font-weight: bold;
-  }
-  audio {
-    display: none;
-  }
-</style>
-</head>
-<body id="body">
-
-<div id="lyrics"></div>
-
-<audio id="player" autoplay></audio>
-
 <script>
   // ----------------------
   // Задаём треки
   // ----------------------
   const tracks = [
-    "https://docs.google.com/uc?export=download&id=1KaBhPrXowMt8LtD_3gkHd_bZL_s4L2UQ", // Track 1
-    "https://docs.google.com/uc?export=download&id=1XH9LCvcDCOk6zQSKOu9gk-IgkTb4A9NQ", // Track 2
-    "https://docs.google.com/uc?export=download&id=1y-uBkJNsxwfsgDSX64PHxWcytK5piwWO", // Track 3
-    "https://docs.google.com/uc?export=download&id=1HOlDVswtTGW4rLuxdXYKO07WLhdKOJ3H", // Track 4
-    "https://docs.google.com/uc?export=download&id=15oqBAH2Cy1zJeJ21tH9sph-KC0nxcRI6", // Track 5
-    "https://docs.google.com/uc?export=download&id=1homo_pkWE347uiZrglbaqU-TRMjqkMWd", // Track 6
-    "https://docs.google.com/uc?export=download&id=1Jq79vUR-1bIgU3ye7wcK1IxClgyG61RJ"  // Track 7
+    "https://docs.google.com/uc?export=download&id=1KaBhPrXowMt8LtD_3gkHd_bZL_s4L2UQ",
+    "https://docs.google.com/uc?export=download&id=1XH9LCvcDCOk6zQSKOu9gk-IgkTb4A9NQ",
+    "https://docs.google.com/uc?export=download&id=1y-uBkJNsxwfsgDSX64PHxWcytK5piwWO",
+    "https://docs.google.com/uc?export=download&id=1HOlDVswtTGW4rLuxdXYKO07WLhdKOJ3H",
+    "https://docs.google.com/uc?export=download&id=15oqBAH2Cy1zJeJ21tH9sph-KC0nxcRI6",
+    "https://docs.google.com/uc?export=download&id=1homo_pkWE347uiZrglbaqU-TRMjqkMWd",
+    "https://docs.google.com/uc?export=download&id=1Jq79vUR-1bIgU3ye7wcK1IxClgyG61RJ"
   ];
 
   // ----------------------
   // Тексты треков
   // ----------------------
-  const lyricsData = [];
-
-  // ----------------------
-  // Track 1
-  // ----------------------
-  lyricsData[0] = [
-    {time:0, text:"Intro... (пустой)"},
-    {time:5, text:"Track 1 Text line 1"},
-    {time:10, text:"Track 1 Text line 2"},
-    // Можно вставить реальные тексты, как у тебя были
+  const lyricsData = [
+    [
+      {time:0,text:"Intro... (пустой)"},
+      {time:5,text:"Track 1 Text line 1"},
+      {time:10,text:"Track 1 Text line 2"}
+    ],
+    [
+      {time:0,text:"Intro... (пустой)"},
+      {time:5,text:"Track 2 line 1"},
+      {time:10,text:"Track 2 line 2"}
+    ],
+    [
+      {time:0,text:"It’s stronger than me, and I just can’t speak out,"},
+      {time:6,text:"So I’m writing it down, clearing all of my doubt."},
+      {time:12,text:"I’m putting it here, in this song, in this line,"}
+    ],
+    [
+      {time:0,text:"The city sleeps, but our feelings bloom"},
+      {time:6,text:"No need for words, under the moon"}
+    ],
+    [
+      {time:0,text:"You know, you’re the best thing that’s happened to me"},
+      {time:6,text:"You opened the door to a world I could never foresee"}
+    ],
+    [
+      {time:0,text:"You’re sitting there, unaware of my steady gaze"},
+      {time:6,text:"Among the crowd, you’re the one who lights the haze"}
+    ],
+    [
+      {time:0,text:"This place has faded, lost all its light,"},
+      {time:6,text:"We’re just embers, drifting in the night."}
+    ]
   ];
 
   // ----------------------
-  // Track 2
-  // ----------------------
-  lyricsData[1] = [
-    {time:0, text:"Intro... (пустой)"},
-    {time:5, text:"Track 2 line 1"},
-    {time:10, text:"Track 2 line 2"},
-    // Используй твои тексты
-  ];
-
-  // ----------------------
-  // Track 3
-  // ----------------------
-  lyricsData[2] = [
-    {time:0, text:"It’s stronger than me, and I just can’t speak out,"},
-    {time:6, text:"So I’m writing it down, clearing all of my doubt."},
-    {time:12, text:"I’m putting it here, in this song, in this line,"},
-    {time:18, text:"Maybe you’ll hear it, and you’ll still be mine."},
-    {time:24, text:"I’m not made of iron, I’m not made of stone,"},
-    {time:30, text:"But something holds back when I’m here all alone."},
-    {time:36, text:"I’m trying to tell you, but I lose my way,"},
-    {time:42, text:"These are the words that I’m dying to say."},
-    {time:48, text:"I love you the same, yeah, just like before,"},
-    {time:54, text:"You’re the one that I need, and I’m longing for more."},
-    {time:60, text:"Believe in this feeling, let it stay, let it stand,"},
-    {time:66, text:"I’m loving you always, just take my hand."},
-    {time:72, text:"I know that you’re waiting, I know that you need it,"},
-    {time:78, text:"But the words won’t come out, no matter how I feel it."},
-    {time:84, text:"I can’t pull them out, no matter how I try,"},
-    {time:90, text:"Believe me I’ve tried, Lord, believe me I’ve tried."},
-    {time:96, text:"It’s stronger than me, and I’ve lost all the words,"},
-    {time:102, text:"So I’m writing it down, to be finally heard."},
-    {time:108, text:"Maybe you’ll listen, and maybe we’ll stay,"},
-    {time:114, text:"I’m breaking the silence, and finding my way."},
-    {time:120, text:"I’m not made of iron, I’m not made of stone,"},
-    {time:126, text:"I’m done with the fear of being alone."},
-    {time:132, text:"I’m telling you now, like I did back then,"},
-    {time:138, text:"I’m yours forever, again and again."},
-    {time:144, text:"I love you the same, yeah, just like before,"},
-    {time:150, text:"You’re the one that I need, and I’m longing for more."},
-    {time:156, text:"Believe in this feeling, let it stay, let it stand,"},
-    {time:162, text:"I’m loving you always, just take my hand."},
-    {time:168, text:"Just take my hand..."},
-    {time:174, text:"Just take my hand..."}
-  ];
-
-  // ----------------------
-  // Track 4
-  // ----------------------
-  lyricsData[3] = [
-    {time:0, text:"The city sleeps, but our feelings bloom"},
-    {time:6, text:"No need for words, under the moon"},
-    {time:12, text:"Interlaced hands, skin on skin"},
-    {time:18, text:"The deepest state we’ve ever been in"},
-    {time:24, text:"I know what you’re trying to say"},
-    {time:30, text:"Keep it inside, don’t throw it away"},
-    {time:36, text:"Let the night give us one more chance"},
-    {time:42, text:"To feel it all in a wordless dance"},
-    {time:48, text:"Our pulse is one, a shared heat"},
-    {time:54, text:"A silent language in our heartbeat"},
-    {time:60, text:"Your eyes are speaking, I feel the spark"},
-    {time:66, text:"I know the truth hidden in the dark"},
-    {time:72, text:"Just to have you stay this way."},
-    {time:78, text:"Your pulse is bound to give you away."},
-    {time:84, text:"Your deep eyes can never lie."},
-    {time:90, text:"They’re mirroring the midnight sky-"},
-    {time:96, text:"I know what you’re trying to say"},
-    {time:102, text:"Keep it inside, don’t throw it away"},
-    {time:108, text:"Let the night give us one more chance"},
-    {time:114, text:"To feel it all in a wordless dance"},
-    {time:120, text:"Let the night give us one more chance..."},
-    {time:126, text:"To feel it all in a wordless dance..."}
-  ];
-
-  // ----------------------
-  // Track 5
-  // ----------------------
-  lyricsData[4] = [
-    {time:0, text:"You know, you’re the best thing that’s happened to me"},
-    {time:6, text:"You opened the door to a world I could never foresee"},
-    {time:12, text:"I’d be lost in the shadows, I’d never arrive"},
-    {time:18, text:"If you hadn’t been there to bring me to life"},
-    {time:24, text:"And I’ve waited to tell you for so LONG!"},
-    {time:30, text:"JUST TO SAY THAT THIS IS ——————————————————"},
-    {time:36, text:"—————————————————— A SOOOOONG... about the love that we share"},
-    {time:42, text:"Just a SOOOOONG... to show you how much I care"},
-    {time:48, text:"A SOOOOONG... for the only one I’ll ever need"},
-    {time:54, text:"Just a song to make us complete."},
-    {time:60, text:"Maybe these words aren’t the ones that you sought"},
-    {time:66, text:"Maybe it’s not quite the anthem you thought"},
-    {time:72, text:"But I just had to say 'thank you' somehow"},
-    {time:78, text:"I just want you to know — right here and now —"},
-    {time:84, text:"And the feeling inside is so strong!"},
-    {time:90, text:"THAT I’M SINGING TO YOU ————"},
-    {time:96, text:"——— A SOOOOONG... about the love that we share"},
-    {time:102, text:"Just a SOOOOONG... to show you how much I care"},
-    {time:108, text:"A SOOOOONG... for the only one I’ll ever need"},
-    {time:114, text:"Just a song to make us complete."},
-    {time:120, text:"And even if you never hit 'play'"},
-    {time:126, text:"I’m happy I found the courage to say..."},
-    {time:132, text:"Just know that my heart... is right here in this song."},
-    {time:138, text:"Just in this song... for you."}
-  ];
-
-  // ----------------------
-  // Track 6
-  // ----------------------
-  lyricsData[5] = [
-    {time:0, text:"You’re sitting there, unaware of my steady gaze"},
-    {time:6, text:"Among the crowd, you’re the one who lights the haze"},
-    {time:12, text:"Your smile still leaves me frozen, lost in time"},
-    {time:18, text:"And I realize, falling for you was no crime"},
-    {time:24, text:"It’s a love so deep, it’s a love so true"},
-    {time:30, text:"Every single breath leads me back to you"},
-    {time:36, text:"It’s only you I want to walk this life beside"},
-    {time:42, text:"It’s only you, with nowhere left to hide"},
-    {time:48, text:"I’m writing this down so the melody takes flight"},
-    {time:54, text:"To remind you of my love in the dead of night"},
-    {time:60, text:"Only you, my star, my guiding light"},
-    {time:66, text:"Thanks for choosing me in the pouring rain"},
-    {time:72, text:"Thanks for the 'Yes' that eased every pain"},
-    {time:78, text:"Through the highs and lows, through the shifting sand"},
-    {time:84, text:"Thanks for staying, for holding my hand"},
-    {time:90, text:"May this feeling stay, may it never end"},
-    {time:96, text:"My life, my soul, my truest friend"},
-    {time:102, text:"It’s only you I want to walk this life beside"},
-    {time:108, text:"It’s only you, with nowhere left to hide"},
-    {time:114, text:"I’m writing this down so the melody takes flight"},
-    {time:120, text:"To remind you of my love in the dead of night"},
-    {time:126, text:"Only you, my star, my guiding light"},
-    {time:132, text:"Oh Good Lord, don’t let this fire burn out"},
-    {time:138, text:"Beyond a shadow of a doubt"},
-    {time:144, text:"We forget the words that matter the most"},
-    {time:150, text:"But not today..."},
-    {time:156, text:"Today..."}
-  ];
-
-  // ----------------------
-  // Track 7
-  // ----------------------
-  lyricsData[6] = [
-    {time:0, text:"This place has faded, lost all its light,"},
-    {time:6, text:"We’re just embers, drifting in the night."},
-    {time:12, text:"I still feel your warmth, and your soft embrace,"},
-    {time:18, text:"When we were one soul in this endless space."},
-    {time:24, text:"The shadows have gathered, I’ve watched them grow,"},
-    {time:30, text:"My heart stopped beating, I’m freezing and slow."},
-    {time:36, text:"I know you’re still here, and our love is true,"},
-    {time:42, text:"I’m finding my way... back to you."},
-    {time:48, text:"Looking at us through a shattered lens,"},
-    {time:54, text:"We’re still breathing, and here the truth begins."},
-    {time:60, text:"I’ve loved you always, through thousands of days,"},
-    {time:66, text:"Though a canyon of silence stands in our way."},
-    {time:72, text:"I’m calling your name, when I’m losing my ground,"},
-    {time:78, text:"But the love that we share is the bridge we have found."},
-    {time:84, text:"I look at you now, and the time stands still,"},
-    {time:90, text:"You’re all i need... that I know is real."},
-    {time:96, text:"Let’s fan every ember to flame,"},
-    {time:102, text:"And burn through the silence, where we’re still the same."},
-    {time:108, text:"Let’s walk this path, let shadows fade,"},
-    {time:114, text:"To find the only world that we have made."},
-    {time:120, text:"I know you’re still here, and our love is true,"},
-    {time:126, text:"Walk to the very end, to the final light, me and you."},
-    {time:132, text:"Looking at us through a shattered lens!"},
-    {time:138, text:"We’re still breathing, and here the truth begins."},
-    {time:144, text:"I’ve loved you always, through thousands of days,"},
-    {time:150, text:"Though a canyon of silence stands in our way!"},
-    {time:156, text:"I’m calling your name, when I’m losing my ground,"},
-    {time:162, text:"But the love that we share is the bridge we have found."},
-    {time:168, text:"I’m still..."},
-    {time:174, text:"...loving you."},
-    {time:180, text:"Loving you."}
-  ];
-
-  // ----------------------
-  // Плеер
-  // ----------------------
-  let currentTrack = 0;
-  const player = document.getElementById("player");
-  const lyricsDiv = document.getElementById("lyrics");
-
-  function playTrack(index) {
-    player.src = tracks[index];
-    player.play();
-    currentTrack = index;
-  }
-
-  // Автопереключение треков
-  player.addEventListener("ended", () => {
-    currentTrack = (currentTrack + 1) % tracks.length;
-    playTrack(currentTrack);
-  });
-
-  playTrack(0);
-
-  // ----------------------
-  // Подсветка текста
-  // ----------------------
-  function updateLyrics() {
-    const currentTime = player.currentTime;
-    const currentLyrics = lyricsData[currentTrack];
-    let displayed = "";
-    for (let i = 0; i < currentLyrics.length; i++) {
-      if (currentTime >= currentLyrics[i].time) {
-        displayed = currentLyrics[i].text;
-      } else {
-        break;
-      }
-    }
-    lyricsDiv.innerHTML = displayed;
-    requestAnimationFrame(updateLyrics);
-  }
-
-  updateLyrics();
-
-  // ----------------------
-  // Фоновая картинка для каждого трека
+  // Фоны треков
   // ----------------------
   const backgrounds = [
-    "https://docs.google.com/uc?export=download&id=1wOP_x1FixSZEOtnZ6xJBynGZjk1LnuLB", // Фон 1
+    "https://docs.google.com/uc?export=download&id=1wOP_x1FixSZEOtnZ6xJBynGZjk1LnuLB",
     "https://docs.google.com/uc?export=download&id=1wOP_x1FixSZEOtnZ6xJBynGZjk1LnuLB",
     "https://docs.google.com/uc?export=download&id=1wOP_x1FixSZEOtnZ6xJBynGZjk1LnuLB",
     "https://docs.google.com/uc?export=download&id=1wOP_x1FixSZEOtnZ6xJBynGZjk1LnuLB",
@@ -296,5 +62,52 @@
     "https://docs.google.com/uc?export=download&id=1wOP_x1FixSZEOtnZ6xJBynGZjk1LnuLB"
   ];
 
+  // ----------------------
+  // Инициализация плеера
+  // ----------------------
+  let currentTrack = 0;
+  const player = document.getElementById("player");
+  const lyricsDiv = document.getElementById("lyrics");
+
+  function playTrack(index) {
+    currentTrack = index;
+    player.src = tracks[index];
+    player.play();
+    updateBackground();
+  }
+
+  player.addEventListener("ended", () => {
+    playTrack((currentTrack + 1) % tracks.length);
+  });
+
+  // ----------------------
+  // Обновление фона
+  // ----------------------
   function updateBackground() {
-    document.body.style
+    document.body.style.backgroundImage = `url(${backgrounds[currentTrack]})`;
+  }
+
+  // ----------------------
+  // Подсветка текста
+  // ----------------------
+  function updateLyrics() {
+    const time = player.currentTime;
+    const lyrics = lyricsData[currentTrack];
+    let currentText = "";
+    for (let i=0; i<lyrics.length; i++){
+      if(time >= lyrics[i].time){
+        currentText = lyrics[i].text;
+      } else {
+        break;
+      }
+    }
+    lyricsDiv.innerHTML = currentText;
+    requestAnimationFrame(updateLyrics);
+  }
+
+  // ----------------------
+  // Старт
+  // ----------------------
+  playTrack(0);
+  updateLyrics();
+</script>
